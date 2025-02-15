@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            background: #ff5733;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #ff5733;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">🍽 Recipe Finder</div>
+        <nav class="navbar">
+            <a href="/">🏠 Home</a>
+            <a href="#" onclick="openModal('login')">🔑 Login</a>
+            <a href="#" onclick="openModal('signup')">📝 Register</a>
+            <a href="#">🔎 Search</a>
+        </nav>
+    </header>
+
+    <div class="containers">
+        <h1>🍴 Find Your Perfect Recipe</h1>
+        <form action="/search" method="post">
+            <input type="text" name="ingredients" placeholder="Enter ingredients (e.g., chicken, rice)" required>
+            <select name="diet">
+                <option value="None">No Preference</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Gluten-Free">Gluten-Free</option>
+                <option value="Ketogenic">Ketogenic</option>
+            </select>
+            <button type="submit">🍽 Find Recipes</button>
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Login</h2>
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button>Login</button>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Signup</h2>
+        <input type="text" placeholder="Username">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button>Signup</button>
+    </div>
+
+    <script>
+        function openModal(type) {
+            closeModal(); // Close any open modals first
+            document.getElementById(type + "Modal").classList.add("show");
+            document.getElementById("overlay").classList.add("show");
+        }
+
+        function closeModal() {
+            document.querySelectorAll(".modal").forEach(modal => modal.classList.remove("show"));
+            document.getElementById("overlay").classList.remove("show");
+        }
+    </script>
+</body>
+</html>

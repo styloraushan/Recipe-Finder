@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">🍽 Recipe Finder</div>
+        <nav class="navbar">
+            <a href="/">🏠 Home</a>
+            <a href="#">🔑 Login</a>
+            <a href="#">📝 Register</a>
+            <a href="#">🔎 Search</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>🍲 Available Recipes</h1>
+        {% if recipes.results %}
+            <div class="recipes">
+                {% for recipe in recipes.results %}
+                <div class="recipe-card">
+                    <h3>{{ recipe.title }}</h3>
+                    <p>⏳ Ready in {{ recipe.readyInMinutes }} mins | 🍽 Serves: {{ recipe.servings }}</p>
+                    <a href="{{ recipe.sourceUrl }}" target="_blank" class="btn">🔗 View Recipe</a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-recipes">No recipes found. Try different ingredients.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
